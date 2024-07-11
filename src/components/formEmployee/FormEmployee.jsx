@@ -11,7 +11,8 @@ import DateSelector from "../dateSelector/DateSelector";
 import Dropdown from "../dropdown/Dropdown";
 import styles from "./FormEmployee.module.css";
 import { differenceInYears, format } from "date-fns";
-import { useSelector } from "react-redux";
+import Modal from "../modal/Modal";
+//import { useSelector } from "react-redux";
 //import shortid from "shortid";
 import { nanoid } from "nanoid";
 //import { v4 as uuidv4 } from "uuid";
@@ -34,6 +35,7 @@ const FormEmployee = () => {
 	const [department, setDepartment] = useState(departmentOptions[0]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [newEmployee, setNewEmployee] = useState(null);
+	const [isOpenModal, setIsOpenModal] = useState(false);
 	//const [isSubmitting, setIsSubmitting] = useState(false);
 
 	//const [isModalOpen, setIsModalOpen] = useState(false);
@@ -80,11 +82,8 @@ const FormEmployee = () => {
 		submittingRef.current = true;*/
 		if (isSubmitting) return;
 		setIsSubmitting(true);
-
 		const employee = {
 			...data,
-			//dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth).toISOString() : null,
-			//startDate: data.startDate ? new Date(data.startDate).toISOString() : null,
 			dateOfBirth: data.dateOfBirth ? formatDate(data.dateOfBirth) : null,
 			startDate: data.startDate ? formatDate(data.startDate) : null,
 			//id: new Date().getTime().toString(), // Ensure unique ID for each employee
@@ -96,12 +95,15 @@ const FormEmployee = () => {
 		setNewEmployee(employee);
 		console.log("newEmployee", employee);
 		console.log("data", data);
-		// Envoie l'action addEmployee avec les nouvelles données.
-		//dispatch(addEmployee(newEmployee));
-		/*dispatch(addEmployee(newEmployee)).then(() => {
+		console.log("state", state);
+		console.log("department", department);
+	};
+	// Envoie l'action addEmployee avec les nouvelles données.
+	//dispatch(addEmployee(newEmployee));
+	/*dispatch(addEmployee(newEmployee)).then(() => {
 			setIsSubmitting(false);
 		});*/
-		/*dispatch(addEmployee(newEmployee)).then(() => {
+	/*dispatch(addEmployee(newEmployee)).then(() => {
 			submittingRef.current = false;
 		});
 
@@ -110,7 +112,6 @@ const FormEmployee = () => {
 		reset();
 		setState(stateOptions[0]);
 		setDepartment(departmentOptions[0]);*/
-	};
 
 	useEffect(() => {
 		const submitEmployee = async () => {
@@ -125,6 +126,7 @@ const FormEmployee = () => {
 					reset();
 					setState(stateOptions[0]);
 					setDepartment(departmentOptions[0]);
+					setIsOpenModal(true);
 				}
 			}
 		};
@@ -153,11 +155,17 @@ const FormEmployee = () => {
 
 	return (
 		<>
-			<h2 className={styles.title}>Create Employee</h2>
-			<div className={styles.formContainer}>
+			<h2 className={styles.title} data-testid="create-employee">
+				Create Employee
+			</h2>
+			<div className={styles.formContainer} data-testid="form-container">
 				{/* <Link to="/employees">View Current Employees</Link> */}
 
-				<form onSubmit={handleSubmit(onSubmit)} id="form-employee" className={styles.form}>
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					id="form-employee"
+					className={styles.form}
+					data-testid="create-employee-form">
 					<fieldset>
 						<legend className={styles.formLegend}>
 							Identity
@@ -169,6 +177,7 @@ const FormEmployee = () => {
 								<input
 									type="text"
 									id="first-name"
+									data-testid="first-name"
 									{...register("firstName", {
 										required: "First name is required",
 										minLength: {
@@ -178,7 +187,7 @@ const FormEmployee = () => {
 									})}
 								/>
 								{errors.firstName && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-first-name">
 										{errors.firstName.message}
 									</span>
 								)}
@@ -189,6 +198,7 @@ const FormEmployee = () => {
 								<input
 									type="text"
 									id="last-name"
+									data-testid="last-name"
 									{...register("lastName", {
 										required: "Last name is required",
 										minLength: {
@@ -198,7 +208,7 @@ const FormEmployee = () => {
 									})}
 								/>
 								{errors.lastName && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-last-name">
 										{errors.lastName.message}
 									</span>
 								)}
@@ -206,7 +216,9 @@ const FormEmployee = () => {
 						</div>
 						<div className={styles.formGroup}>
 							<div className={styles.formGroupControl}>
-								<label htmlFor="date-of-birth">Date of Birth*</label>
+								<label htmlFor="date-of-birth" data-testid="date-of-birth-selector">
+									Date of Birth*
+								</label>
 								{/* <DateSelector id="date-of-birth" date={dateOfBirth} /> */}
 
 								<Controller
@@ -216,7 +228,7 @@ const FormEmployee = () => {
 									rules={{
 										required: "Date of birth is required",
 										validate: {
-											validAge: (value) => validateAge(value) || "Age must be between 18 and 65",
+											validAge: (value) => validateAge(value),
 										},
 									}}
 									render={({ field }) => (
@@ -226,18 +238,23 @@ const FormEmployee = () => {
 											onChange={field.onChange}
 											minDate={minBirthDate}
 											maxDate={maxBirthDate}
+
+											//data-testid="date-of-birth-selector"
+
 											// hasError={!!errors.dateOfBirth}
 										/>
 									)}
 								/>
 								{errors.dateOfBirth && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-date-of-birth">
 										{errors.dateOfBirth.message}
 									</span>
 								)}
 							</div>
 							<div className={styles.formGroupControl}>
-								<label htmlFor="start-date">Start Date*</label>
+								<label htmlFor="start-date" data-testid="start-date-selector">
+									Start Date*
+								</label>
 								{/* <DateSelector id="date-of-birth" date={startDate} /> */}
 								<Controller
 									name="startDate"
@@ -253,12 +270,14 @@ const FormEmployee = () => {
 											onChange={field.onChange}
 											maxDate={today}
 											filterDate={filterStartDate}
+
+											//data-testid="start-date-selector"
 											// hasError={!!errors.dateOfBirth}
 										/>
 									)}
 								/>
 								{errors.startDate && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-start-date">
 										{errors.startDate.message}
 									</span>
 								)}
@@ -277,6 +296,7 @@ const FormEmployee = () => {
 								<label htmlFor="street">Street*</label>
 								<input
 									id="street"
+									data-testid="street"
 									type="text"
 									{...register("street", {
 										required: "Street is required",
@@ -287,7 +307,7 @@ const FormEmployee = () => {
 									})}
 								/>
 								{errors.street && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-street">
 										{errors.street.message}
 									</span>
 								)}
@@ -297,6 +317,7 @@ const FormEmployee = () => {
 								<input
 									id="city"
 									type="text"
+									data-testid="city"
 									{...register("city", {
 										required: "City name is required.",
 										minLength: {
@@ -307,7 +328,7 @@ const FormEmployee = () => {
 								/>
 
 								{errors.city && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-city">
 										{errors.city.message}
 									</span>
 								)}
@@ -316,19 +337,14 @@ const FormEmployee = () => {
 
 						<div className={styles.formGroup}>
 							<div className={styles.dropdown}>
-								{/* <label aria-label="Select department">State *</label> */}
-								<label htmlFor="state">State</label>
+								<label htmlFor="state" data-testid="state">
+									State
+								</label>
 								<Dropdown
 									id="state"
 									value={state}
 									options={stateOptions}
 									onChange={(selectedState) => setState(selectedState)}
-									//placeholder={stateOptions[0].label}
-									//onChange={setState}
-									//onChange={(selectedOption) => setState(selectedOption.value)}
-									//onChange={handleChangeState}
-									//value={state}
-									//onChange={(selectedOption) => setState(selectedOption.value)}
 								/>
 
 								{/* <Controller 
@@ -356,6 +372,7 @@ const FormEmployee = () => {
 								<input
 									id="zip-code"
 									type="number"
+									data-testid="zip-code"
 									{...register("zipCode", {
 										required: "Zip code is required",
 										pattern: {
@@ -365,7 +382,7 @@ const FormEmployee = () => {
 									})}
 								/>
 								{errors.zipCode && (
-									<span className={styles.error} role="alert">
+									<span className={styles.error} role="alert" data-testid="error-zip-code">
 										{errors.zipCode.message}
 									</span>
 								)}
@@ -382,11 +399,6 @@ const FormEmployee = () => {
 							value={department}
 							options={departmentOptions}
 							onChange={(selectedOption) => setDepartment(selectedOption)}
-							//placeholder={departmentOptions[0].label}
-							//onChange={setDepartment}
-							//onChange={(selectedDepartment) => setDepartment(selectedDepartment.value)}
-							//onChange={handleChangeDepartment}
-							//value={department}
 						/>
 
 						{/* <Controller
@@ -409,10 +421,17 @@ const FormEmployee = () => {
 						)} */}
 					</div>
 
-					<button aria-label="Submit form" className={styles.submitBtn} type="submit">
+					<button
+						aria-label="Submit form"
+						className={styles.submitBtn}
+						type="submit"
+						data-testid="btn-submit-form">
 						Save
 					</button>
 				</form>
+			</div>
+			<div data-testid="form-modal-container">
+				{isOpenModal && <Modal onClose={() => setIsOpenModal(false)} />}
 			</div>
 		</>
 	);

@@ -114,16 +114,19 @@ const Pagination = ({ employeesPerPage, totalEmployees, paginate, currentPage })
 	const paginationRange = getPaginationRange();
 
 	return (
-		<div className="pagination-container">
-			<div className="pagination-info">
+		<div className="pagination-container" data-testid="pagination-container">
+			<div className="pagination-info" data-testid="pagination-info">
 				{`Showing ${indexOfFirstEmployee + 1} to ${Math.min(
 					indexOfLastEmployee,
 					totalEmployees
 				)} of ${totalEmployees} entries`}
 			</div>
-			<ul className="pagination">
+			<ul className="pagination" data-testid="pagination-list">
 				<li>
-					<button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+					<button
+						onClick={() => paginate(currentPage - 1)}
+						disabled={currentPage === 1}
+						data-testid="pagination-previous">
 						Précédent
 					</button>
 				</li>
@@ -132,12 +135,17 @@ const Pagination = ({ employeesPerPage, totalEmployees, paginate, currentPage })
 						{number === "..." ? (
 							<span className="ellipsis">...</span>
 						) : (
-							<button onClick={() => paginate(number)}>{number}</button>
+							<button onClick={() => paginate(number)} data-testid={`pagination-page-${number}`}>
+								{number}
+							</button>
 						)}
 					</li>
 				))}
 				<li>
-					<button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+					<button
+						onClick={() => paginate(currentPage + 1)}
+						disabled={currentPage === totalPages}
+						data-testid="pagination-next">
 						Suivant
 					</button>
 				</li>

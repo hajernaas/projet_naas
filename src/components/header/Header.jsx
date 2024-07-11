@@ -29,14 +29,14 @@ const Header = () => {
 	return (
 		<header>
 			<nav className={styles.navbar}>
-				<div className={styles.navbarLogo}>
+				<div className={styles.navbarLogo} data-testid="navbar-logo">
 					<NavLink to="/">
-						<img width={300} height={276} src={logo} alt="logo wealth health" />
+						<img width={300} height={276} src={logo} alt="logo wealth health" data-testid="logo" />
 						<h1> WEALTH HEALTH </h1>
 					</NavLink>
 				</div>
 
-				<div className={styles.navbarToggle}>
+				<div className={styles.navbarToggle} data-testid="navbar-toggle">
 					<NavLink to={toggle ? "/employees" : "/"} onClick={handleToggle}>
 						{/*{toggle ? (
 							<FontAwesomeIcon icon={faHouse} className={styles.iconHome} />

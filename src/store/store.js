@@ -28,6 +28,7 @@ export const persistor = persistStore(store);
 // store.js
 
 import { configureStore } from "@reduxjs/toolkit";
+import employeesReducer from "../slices/employeesSlice";
 //import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // default: localStorage for web
 
@@ -43,7 +44,6 @@ import {
 } from "redux-persist";
 
 //import { employeesSlice } from "../slices/employeesSlice";
-import employeesReducer from "../slices/employeesSlice";
 
 const persistConfig = {
 	key: "root",
@@ -63,8 +63,8 @@ export const store = configureStore({
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
 			serializableCheck: {
-				//ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+				ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+				//ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 			},
 		}),
 });

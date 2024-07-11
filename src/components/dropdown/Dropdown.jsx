@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./Dropdown.module.css";
+import PropTypes from "prop-types";
 
 //our offrir une sélection d'options à partir d'un menu déroulant.
 
@@ -25,6 +26,7 @@ import styles from "./Dropdown.module.css";
 };*/
 const Dropdown = ({ id, value, options, onChange }) => {
 	const [selectedOption, setSelectedOption] = useState(value);
+	console.log("value", value);
 
 	useEffect(() => {
 		setSelectedOption(value);
@@ -33,6 +35,7 @@ const Dropdown = ({ id, value, options, onChange }) => {
 	const handleChange = (option) => {
 		setSelectedOption(option);
 		onChange(option);
+		console.log("option", option);
 	};
 
 	return (
@@ -47,6 +50,21 @@ const Dropdown = ({ id, value, options, onChange }) => {
 			/>
 		</div>
 	);
+};
+
+Dropdown.propTypes = {
+	id: PropTypes.string.isRequired,
+	value: PropTypes.shape({
+		value: PropTypes.string.isRequired,
+		label: PropTypes.string.isRequired,
+	}).isRequired,
+	options: PropTypes.arrayOf(
+		PropTypes.shape({
+			value: PropTypes.string.isRequired,
+			label: PropTypes.string.isRequired,
+		})
+	).isRequired,
+	onChange: PropTypes.func.isRequired,
 };
 
 export default Dropdown;

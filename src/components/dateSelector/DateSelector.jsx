@@ -17,6 +17,8 @@ const DateSelector = ({ id, date, onChange, minDate, maxDate, filterDate }) => {
 			maxDate={maxDate}
 			filterDate={filterDate}
 			dateFormat="dd/MM/yyyy"
+			//data-testid={dataTestId}
+			//data-testid={props["data-testid"]}
 			renderCustomHeader={({
 				date,
 				changeYear,

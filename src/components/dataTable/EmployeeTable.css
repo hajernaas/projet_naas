@@ -5,17 +5,17 @@
 	margin-bottom: 20px;
 }
 
-input[type="text"] {
+/*input[type="text"] {
 	padding: 10px;
 	font-size: 14px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
-}
+}*/
 
-select {
+/*select {
 	padding: 10px;
 	font-size: 14px;
-}
+}*/
 
 table {
 	width: 100%;
@@ -38,12 +38,18 @@ table th:hover {
 	background-color: #ddd;
 }
 
-.pagination {
+.table-container {
+	width: 100%;
+	overflow-x: auto;
+	margin: 20px 0;
+}
+
+/*.pagination {
 	display: flex;
 	justify-content: flex-start;
 	list-style-type: none;
 	padding: 0;
-}
+}*/
 
 .pagination li {
 	margin-right: 5px;
@@ -59,4 +65,66 @@ table th:hover {
 
 .pagination li button:hover {
 	background-color: #ddd;
+}
+
+/* Pagination styles */
+
+.pagination-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/*.pagination {
+	list-style: none;
+	display: flex;
+	gap: 10px;
+}
+*/
+.pagination li {
+	display: inline;
+}
+
+.pagination button {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.pagination button.active {
+	background-color: #4caf50;
+	color: white;
+	border: 1px solid #4caf50;
+}
+
+.pagination button:disabled {
+	background-color: #f0f0f0;
+	cursor: not-allowed;
+}
+
+.search {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	width: 100%;
+	max-width: 300px;
+	margin-top: 20px;
+}
+
+.select {
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+
+	margin-top: 20px;
+}
+
+.containerSearchSelect {
+	display: flex;
+	justify-content: space-between;
+	padding: 2rem 4rem;
 }

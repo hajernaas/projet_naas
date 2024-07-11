@@ -1,0 +1,42 @@
+.modalContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+}
+
+.modalContent {
+	background: white;
+	max-width: 300px;
+	width: 100%;
+	padding: 3rem;
+	border-radius: 10px;
+	box-shadow: #00000059 0 5px 15px;
+	text-align: center;
+	position: relative;
+	border: 5px solid #73832c;
+}
+
+.closeModal {
+	background-color: #73832c;
+	border: none;
+	cursor: pointer;
+	position: absolute;
+	top: -16px;
+	right: -16px;
+	color: black;
+	font-weight: 600;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
